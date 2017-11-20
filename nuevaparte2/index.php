@@ -161,8 +161,24 @@ $app->get('/search/min/{min}/max/{max}', function (Request $request, Response $r
 		}
 	}
 	
-	return json_encode($data_total);
+	// return json_encode($data_total);
+	$xml = new SimpleXMLElement('<members/>');
 
+	foreach($data_total AS $memberDetails){
+		$member = $xml->addChild('member');
+		$member->addChild('id', $memberDetails['id']);
+		$member->addChild('salary', $memberDetails['salary']);
+		$member->addChild('age', $memberDetails['age']);
+		$member->addChild('position', $memberDetails['position']);
+		$member->addChild('name', $memberDetails['gender']);
+		$member->addChild('email', $memberDetails['email']);
+		$member->addChild('phone', $memberDetails['phone']);
+		$member->addChild('address', $memberDetails['address']);
+	}
+		//set header content type
+		Header('Content-type: text/xml');
+		print($xml->asXML());
+		exit();
   });
 
 
